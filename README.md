@@ -89,38 +89,41 @@ Result: The application is public, but the servers remain private.
  Enable programmatic/console access
  Assign least-privilege permissions
  Enable MFA for both the IAM user and root account
-https://i.postimg.cc/ZKJ4fP3z/Screenshot-2025-10-21-120358.png
-https://i.postimg.cc/bwzHLvqs/Screenshot-2025-10-21-120632.png
+ ![USERS](https://i.postimg.cc/ZKJ4fP3z/Screenshot-2025-10-21-120358.png)
+![USERS](https://i.postimg.cc/bwzHLvqs/Screenshot-2025-10-21-120632.png)
+
 
 ### Create IAM Role for EC2 (SSM Access)
 
  Policy: `AmazonSSMManagedInstanceCore`
  Role name: `ec2_ssm_role`
   This enables your EC2 instances to communicate securely with Systems Manager.
-https://i.postimg.cc/yN7LtPBm/Screenshot-2025-10-21-122116.png
-https://i.postimg.cc/kXrzwWVF/Screenshot-2025-10-21-122338.png
-https://i.postimg.cc/BQsNXpLT/Screenshot-2025-10-21-122540.png
-https://i.postimg.cc/028d8NhP/Screenshot-2025-10-21-122621.png
+![ROLES](https://i.postimg.cc/yN7LtPBm/Screenshot-2025-10-21-122116.png)
+![ROLES](https://i.postimg.cc/kXrzwWVF/Screenshot-2025-10-21-122338.png)
+![ROLES](https://i.postimg.cc/BQsNXpLT/Screenshot-2025-10-21-122540.png)
+![ROLES](https://i.postimg.cc/028d8NhP/Screenshot-2025-10-21-122621.png)
+
+
 ---
 
 # 🌐 Step 2: Build the VPC and Network Layer
 
 ### Create Custom VPC
 Set up an Elastic IP
-https://i.postimg.cc/Jndvw4NG/Screenshot-2025-10-21-141044.png
+![Elastic IP](https://i.postimg.cc/Jndvw4NG/Screenshot-2025-10-21-141044.png)
  Name: `12WeekChallenge-Week-VPC`
  CIDR: `10.0.0.0/16`
  This defines the private address space for your application environment.
-https://i.postimg.cc/LXVd1XTb/Screenshot-2025-10-21-123955.png
-https://i.postimg.cc/nzh23hZn/Screenshot-2025-10-21-123452.png
+![VPC](https://i.postimg.cc/LXVd1XTb/Screenshot-2025-10-21-123955.png)
+![VPC](https://i.postimg.cc/nzh23hZn/Screenshot-2025-10-21-123452.png)
 
 
 ### Attach Internet Gateway
 
  Path: VPC → Internet Gateways → Create → Attach to VPC
   This allows internet connectivity for your public subnets and NAT Gateways.
-https://i.postimg.cc/RFJkgdvz/Screenshot-2025-10-21-124652.png
-https://i.postimg.cc/9XJkysdG/Screenshot-2025-10-21-125310.png
+![IGW](https://i.postimg.cc/RFJkgdvz/Screenshot-2025-10-21-124652.png)
+![IGW](https://i.postimg.cc/9XJkysdG/Screenshot-2025-10-21-125310.png)
 
 NB: Without attaching the IGW, even public instances won’t have internet access.
 
@@ -132,17 +135,17 @@ NB: Without attaching the IGW, even public instances won’t have internet acces
 
  Create one NAT Gateway per AZ for high availability.
  Each NAT is deployed in a public subnet and attached to an Elastic IP (EIP).
-https://i.postimg.cc/T3pJ53Gw/NGW-AZ1.png
-https://i.postimg.cc/fW8d7Q8b/NGW-AZ2.png
+![NGW](https://i.postimg.cc/T3pJ53Gw/NGW-AZ1.png)
+![NGW](https://i.postimg.cc/fW8d7Q8b/NGW-AZ2.png)
 
 ### Route Tables
 
  Public Route Table: routes `0.0.0.0/0` → Internet Gateway
  Private Route Table: routes `0.0.0.0/0` → NAT Gateway
-https://i.postimg.cc/T1NQBLfd/route-table.png
+![RT](https://i.postimg.cc/T1NQBLfd/route-table.png)
 
 Subnet Associations:
-https://i.postimg.cc/xCtPbJkJ/RTN4.png
+![Sub Ass](https://i.postimg.cc/xCtPbJkJ/RTN4.png)
  Public RT → Public Subnets
  Private RT → Private Subnets
 
@@ -172,8 +175,8 @@ This forms the foundation of a secure AWS network architecture.
  Subnet: Private (no public IP)
  IAM Role: `ec2-ssm-role`
  Security Group: Allow HTTP (80) only from ALB
- https://i.postimg.cc/FRy0jf7R/Screenshot-2025-10-21-132459.png
- https://i.postimg.cc/d1Yytq4Q/Screenshot-2025-10-21-132530.png
+ ![ec2](https://i.postimg.cc/FRy0jf7R/Screenshot-2025-10-21-132459.png)
+![ec2](https://i.postimg.cc/d1Yytq4Q/Screenshot-2025-10-21-132530.png)
 
 ### User Data Script
 
@@ -203,9 +206,11 @@ EOF
 
 # Step 6: Configure the Application Load Balancer (ALB)
 From the EC2 window, Find Load balancer
-https://i.postimg.cc/13YzjyL7/Screenshot-2025-10-21-133608.png
+![Alb](https://i.postimg.cc/13YzjyL7/Screenshot-2025-10-21-133608.png)
+
 Select ALB
- https://i.postimg.cc/c155C2GH/Screenshot-2025-10-21-133646.png 
+![Alb](https://i.postimg.cc/c155C2GH/Screenshot-2025-10-21-133646.png)
+  
  Scheme: Internet-facing
  Listeners: HTTP (80)
  VPC: Your custom VPC
@@ -213,7 +218,7 @@ Select ALB
  Security Group: Allow HTTP (80) inbound
 
 Create a Target Group 
-https://i.postimg.cc/fR6vhQXn/Screenshot-2025-10-21-135331.png
+![Target Group](https://i.postimg.cc/fR6vhQXn/Screenshot-2025-10-21-135331.png)
 (type: Instance. Protocol: HTTP) and register your EC2 instances.
 The ALB now distributes traffic across both private instances.
 
@@ -230,13 +235,14 @@ Result:
 
  Go to Systems Manager → Session Manager → Start Session
  Select your EC2 instance
- https://i.postimg.cc/3NtcjrRv/INSTANCE-CONNECT.jpg
+ ![SSM](https://i.postimg.cc/3NtcjrRv/INSTANCE-CONNECT.jpg)
+ 
  Verify Apache service:
 
 ```bash
 sudo systemctl status apache2
 ```
-https://i.postimg.cc/mDtjx3Zn/CTL.jpg
+![Apache](https://i.postimg.cc/mDtjx3Zn/CTL.jpg)
 
 ### Test via Load Balancer
 
@@ -262,7 +268,7 @@ You should see your web app’s HTML output, confirming successful deployment!
 # 💬 Final Thoughts
 
 This project strengthened my understanding of network design, secure access control, and automation on AWS.
-Every service — from IAM to ALB — was built manually, ensuring deep practical understanding of how AWS infrastructure works together securely and efficiently.
+Every service, from IAM to ALB was built manually, ensuring deep practical understanding of how AWS infrastructure works together securely and efficiently.
 
 If you’re also learning AWS, start small but go deep understanding of the “why” behind every component will make you a far stronger cloud engineer. 
 
