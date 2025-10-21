@@ -23,7 +23,9 @@ This goal is to architect for security, automation, and scalability.
 
 “Secure Web App on AWS with ALB, NATGW, and SSM”
 The architecture implements defense in depth where every component (from IAM users to EC2 instances) follows least privilege access and AWS security best practices.
-https://i.postimg.cc/wTfBMh9W/EC2-VPC-WEB-drawio-4.png
+
+![Architecture diagram](https://i.postimg.cc/wTfBMh9W/EC2-VPC-WEB-drawio-4.png)
+
 
 ---
 
