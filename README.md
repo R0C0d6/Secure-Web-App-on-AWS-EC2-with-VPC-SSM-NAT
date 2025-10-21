@@ -191,11 +191,11 @@ systemctl start apache2
 cat > /var/www/html/index.html <<'EOF'
 <html>
   <head><title>Simple Web App</title></head>
-  <body style="font-family: Arial; text-align: center; margin-top: 50px;">
+  <body style="font-family: Arial; text-align: center; margin-top: 60px;">
     <h1>Project: Basic EC2 Web App</h1>
     <p>This project is part of the <strong>12 Week AWS Workshop Challenge</strong>.</p>
     <p>Instance ID: $(curl -s http://169.254.169.254/latest/meta-data/instance-id)</p>
-    <p>Launched by: Samuel Nartey Otuafo | <a href="https://www.linkedin.com/in/samuelnartey/">Follow on LinkedIn</a></p>
+    <p>Launched by: Roland Mawuli Awuku | <a href="https://www.linkedin.com/in/rolandmawuliawuku/">Follow on LinkedIn</a></p>
     <p>Powered by AWS User Group Yaounde</p>
   </body>
 </html>
