@@ -271,8 +271,3 @@ This project strengthened my understanding of network design, secure access cont
 Every service, from IAM to ALB was built manually, ensuring deep practical understanding of how AWS infrastructure works together securely and efficiently.
 
 If you’re also learning AWS, start small but go deep understanding of the “why” behind every component will make you a far stronger cloud engineer. 
-
----
-
-Would you like me to make this **LinkedIn post-ready version** (with emojis, hashtags, and short formatting for public feed — not README)?
-That version would be perfect to publish on your profile.
